@@ -1,0 +1,15 @@
+{
+  "logger": {
+    "categories": {
+      "ignore": {"level": "silent"},
+      "noLoggly": {"loggly": "silent"},
+      "noConsole": {"console": "silent"}
+    },
+    "loggly": {
+      "token": "token",
+      "subdomain": "subdomain",
+      "json": true
+    }
+  }
+
+}
