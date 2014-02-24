@@ -36,3 +36,12 @@ log8('this will not be logged to loggly but will show up on the console');
 
 var log9 = logger('noConsole');
 log9('this will not be logged to console but will be sent to loggly');
+
+
+var rec = logger('recorder');
+rec.record('pants');
+log9('this will be recorded and played back');
+
+console.log(rec.stop());
+console.log(rec.stop('text'));
+console.log(rec.stop('html'));

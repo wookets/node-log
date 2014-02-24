@@ -4,6 +4,7 @@ var config = require('./lib/config');
 var log2console = require('./lib/log2console');
 var log2loggly = require('./lib/log2loggly');
 var profile = require('./lib/profile');
+var recorder = require('./lib/recorder');
 
 var loggers = {};
 
@@ -19,6 +20,8 @@ module.exports = function(category) {
   logger.info = function(msg, meta) {log(category, 'info', msg, meta)};
   logger.warn = function(msg, meta) {log(category, 'warn', msg, meta)};
   logger.error = function(msg, meta) {log(category, 'error', msg, meta)};
+  logger.record = function(name) {config.record = true; recorder.start(name);};
+  logger.stop = function(format) {config.record = false; return recorder.end(format)};
   return logger;
 }
 
@@ -43,6 +46,11 @@ function log(category, level, msg, meta) {
   // loggly (if enabled)
   if (config.loggly && !ignore(catConfig.loggly, level)) {
     log2loggly(category, level, msg, meta, ms);
+  }
+
+  // record (if enabled)
+  if (config.record) {
+    recorder.log(category, level, msg, meta, ms);
   }
 }
 
