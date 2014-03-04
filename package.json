@@ -1,20 +1,19 @@
 {
-  "name": "log",
-  "version": "0.2.0",
+  "name": "logger",
+  "version": "0.3.0",
   "main": "./index",
   "author": "wookets <wookets@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git://github.com/wookets/node-log.git"
+    "url": "git://github.com/wookets/node-logger.git"
   },
   "engines": {
     "node": ">= 0.10.x"
   },
   "dependencies": {
-    "lodash": "~2.4.1",
-    "nconf": "~0.6.9",
-    "loggly": "~1.0.3",
-    "colors": "~0.6.2"
+    "winston": "0.7.x"
+  },
+  "peerDependencies": {
   },
   "devDependencies": {}
 }

@@ -13,7 +13,7 @@ log2('testing multiple meta data', 'answer', 'solution');
 log2('log an array of meta data', ['answer', 'solution']);
 
 var log3 = logger('thrown');
-log3(Error('testing an error being thrown'));
+log3.error(Error('testing an error being thrown'));
 
 var log4 = logger('info');
 log4.info('logged in as info level');
@@ -39,9 +39,4 @@ log9('this will not be logged to console but will be sent to loggly');
 
 
 var rec = logger('recorder');
-rec.record('pants');
 log9('this will be recorded and played back');
-
-console.log(rec.stop());
-console.log(rec.stop('text'));
-console.log(rec.stop('html'));

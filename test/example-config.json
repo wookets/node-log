@@ -1,0 +1,10 @@
+{
+  "logger": {
+    "transports": {
+      "console": {
+        "colorize": true,
+        "level": "silly"
+      }
+    }
+  }
+}

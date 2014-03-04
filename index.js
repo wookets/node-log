@@ -1,69 +1,26 @@
 
-var _ = require('lodash');
-var config = require('./lib/config');
-var log2console = require('./lib/log2console');
-var log2loggly = require('./lib/log2loggly');
-var profile = require('./lib/profile');
-var recorder = require('./lib/recorder');
+var winston = require('winston');
 
-var loggers = {};
+var config = require(__dirname + '/../../config.json');
+if (!config) throw Error('You need a config.json file in the root of your project.');
+if (!config.logger) throw Error('You need a logger property in config.json.');
 
 module.exports = function(category) {
-  var catConfig = config.categories[category] || {};
-  catConfig.level = catConfig.level || 'silly';
-  catConfig.console = catConfig.console || catConfig.level;
-  catConfig.loggly = catConfig.loggly || catConfig.level;
-  config.categories[category] = catConfig;
+  var config = log.config;
+  config.transports.console.label = category;
+  var cat = winston.loggers.get(category, config.transports);
+  if (config.transports.console) {
+    cat.cli();
+  }
 
-  var logger = function(msg, meta) {log(category, 'info', msg, meta)};
-  logger.verbose = function(msg, meta) {log(category, 'verbose', msg, meta)};
-  logger.info = function(msg, meta) {log(category, 'info', msg, meta)};
-  logger.warn = function(msg, meta) {log(category, 'warn', msg, meta)};
-  logger.error = function(msg, meta) {log(category, 'error', msg, meta)};
-  logger.record = function(name) {config.record = true; recorder.start(name);};
-  logger.stop = function(format) {config.record = false; return recorder.end(format)};
+  var logger = cat.info;
+  logger.silly = cat.silly;
+  logger.verbose = cat.verbose;
+  logger.info = cat.info;
+  logger.warn = cat.warn;
+  logger.error = cat.error;
+  logger.profile = cat.profile;
+  logger.cat = cat;
+
   return logger;
-}
-
-
-function log(category, level, msg, meta) {
-  // ignore (if enabled)
-  var catConfig = config.categories[category];
-  if (ignore(catConfig.level, level)) {
-    return;
-  }
-
-  // profile
-  if (config.profile) {
-    var ms = profile(category);
-  }
-
-  // console
-  if (config.console && !ignore(catConfig.console, level)) {
-    log2console(category, level, msg, meta, ms);
-  }
-
-  // loggly (if enabled)
-  if (config.loggly && !ignore(catConfig.loggly, level)) {
-    log2loggly(category, level, msg, meta, ms);
-  }
-
-  // record (if enabled)
-  if (config.record) {
-    recorder.log(category, level, msg, meta, ms);
-  }
-}
-
-function ignore(level1, level2) {
-  return convertLevel(level1) >= convertLevel(level2);
-}
-
-function convertLevel(level) {
-  if (level === 'silly') return -Infinity;
-  if (level === 'verbose') return 1000;
-  if (level === 'info') return 2000;
-  if (level === 'http') return 3000;
-  if (level === 'warn') return 4000;
-  if (level === 'error') return 5000;
-  if (level === 'silent') return Infinity;
 }
