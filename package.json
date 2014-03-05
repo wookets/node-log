@@ -1,6 +1,6 @@
 {
   "name": "logger",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "./index",
   "author": "wookets <wookets@gmail.com>",
   "repository": {
@@ -11,9 +11,10 @@
     "node": ">= 0.10.x"
   },
   "dependencies": {
-    "winston": "0.7.x"
+    "wrap": "https://github.com/wookets/javascript-wrap/tarball/0.1.0"
   },
   "peerDependencies": {
+    "winston": "0.7.x"
   },
   "devDependencies": {}
 }

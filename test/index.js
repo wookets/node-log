@@ -1,9 +1,8 @@
 
-process.env.LOGGER_CONFIG_FILE = __dirname + '/config.json'
-
 var logger = require('../');
 
 var log1 = logger('test');
+log1.capture('capture1')
 log1('testing standard log message');
 
 var log2 = logger('data');
@@ -40,3 +39,7 @@ log9('this will not be logged to console but will be sent to loggly');
 
 var rec = logger('recorder');
 log9('this will be recorded and played back');
+
+console.log('capture results', log1.report());
+log1.clear();
+console.log('cleared report', log1.report());
