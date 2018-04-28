@@ -4,6 +4,8 @@ A facade for Winston. Really, just less typing but still Winston.
 
 ## Install
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/wookets/node-logger.svg)](https://greenkeeper.io/)
+
 In package.json, under dependencies, you can do...
 
 ```"log": "https://github.com/wookets/node-logger/0.3.1"```
